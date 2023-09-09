@@ -18,9 +18,9 @@ import {
   // CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
-
+const backendUrl = "https://mernapp-racr.onrender.com";
 export const AddContact = (userData) => async (dispatch) => {
-  console.log(userData);
+
   try {
     dispatch({ type: ADD_CONTACT_REQUEST });
 
@@ -29,8 +29,8 @@ export const AddContact = (userData) => async (dispatch) => {
         "content-type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/v1/contact", userData, config);
-console.log(data);
+    const { data } = await axios.post(`${backendUrl}/api/v1/contact`, userData, config);
+
     dispatch({ type: ADD_CONTACT_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({
@@ -44,7 +44,7 @@ export const view = () => async (dispatch) => {
   try {
     dispatch({ type: VIEW_REQUEST });
 
-    const { data } = await axios.get("/api/v1/view");
+    const { data } = await axios.get(`${backendUrl}/api/v1/view`);
 console.log(data);
     dispatch({ type: VIEW_SUCCESS, payload: data.contacts });
   } catch (error) {
@@ -65,7 +65,7 @@ export const Update = (id, UpdateDetail) => async (dispatch) => {
       },
     };
     const { data } = await axios.put(
-      `/api/v1/update/${id}`,
+      `${backendUrl}/api/v1/update/${id}`,
       UpdateDetail,
       config
     );
@@ -88,7 +88,7 @@ export const Single = (id) => async (dispatch) => {
         "content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/v1/single/${id}`, config);
+    const { data } = await axios.get(`${backendUrl}/api/v1/single/${id}`, config);
 
     dispatch({ type: SINGLE_SUCCESS, payload: data.contact });
   } catch (error) {
@@ -108,7 +108,7 @@ export const Delete = (id) => async (dispatch) => {
         "content-type": "application/json",
       },
     };
-    const { data } = await axios.delete(`/api/v1/delete/${id}`, config);
+    const { data } = await axios.delete(`${backendUrl}/api/v1/delete/${id}`, config);
 
     dispatch({ type: DELETE_SUCCESS, payload: data.user });
   } catch (error) {
@@ -118,14 +118,3 @@ export const Delete = (id) => async (dispatch) => {
     });
   }
 };
-
-// Logout User
-// export const logout = () => async (dispatch) => {
-//   try {
-//     await axios.get('/api/v1/logout');
-
-//     dispatch({ type: LOGOUT_SUCCESS });
-//   } catch (error) {
-//     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
-//   }
-// };
